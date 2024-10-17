@@ -75,8 +75,8 @@ void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
             break;
         }
         if(tableau_noms[i] == NULL || tableau_numeros == NULL) {
-            tableau_noms[i] = nom;
-            tableau_numeros[i] = numero;
+            *(tableau_noms + i) = nom;
+            *(tableau_numeros + i) = numero;
             printf("Contact %d. %s - %s ajouté\n", i, tableau_noms[i], tableau_numeros[i]);
             break;
         }
@@ -177,9 +177,9 @@ int main() {
                 break;  // Do nothing, loop will exit
             default:
                 printf("Action invalide, veuillez choisir une autre action\n\n");
+                flush();
                 break;
         }
-        flush();    // Nettoyage de l'entrée pour le prochain choix
     } while(choice != 5);
     printf("\nA bientot!\n");
 
