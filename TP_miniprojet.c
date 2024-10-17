@@ -65,6 +65,7 @@ void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
     char numero[10];
     printf("Entrez le nom du contact à ajouter > ");
     scanf("%s", nom);
+    flush();
     printf("Entrez le numero du contact à ajouter > ");
     scanf("%s", numero);
     for(int i = 0; i <= size; ++i) {
@@ -149,8 +150,8 @@ void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
 
 int main() {
     /* Déclaration des variables + données de test*/
-    char* noms[CONTACT_LIMIT][10] = {"John", "Doe", "Julien"};
-    char* numeros[CONTACT_LIMIT][10] = { "0695413596", "07955417596", "+33826134576" };
+    char* noms[CONTACT_LIMIT] = {"John", "Doe", "Julien"};
+    char* numeros[CONTACT_LIMIT] = { "0695413596", "07955417596", "+33826134576" };
     int choice = 0;
 
     /* Affichage du menu */
@@ -161,16 +162,16 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                viewAllContacts(*noms, *numeros, CONTACT_LIMIT);
+                viewAllContacts(noms, numeros, CONTACT_LIMIT);
                 break;
             case 2:
-                searchContacts(*noms, *numeros, CONTACT_LIMIT);
+                searchContacts(noms, numeros, CONTACT_LIMIT);
                 break;
             case 3:
-                addContact(*noms, *numeros, CONTACT_LIMIT);
+                addContact(noms, numeros, CONTACT_LIMIT);
                 break;
             case 4:
-                removeContact(*noms, *numeros, CONTACT_LIMIT);
+                removeContact(noms, numeros, CONTACT_LIMIT);
                 break;
             case 5:
                 break;  // Do nothing, loop will exit
