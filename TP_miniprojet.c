@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define CONTACT_LIMIT 40
 
 /*
     mini_projet1
@@ -21,29 +22,44 @@
     - Supprimer un contact.
 */
 
-void addContact(char*** tableau_noms, char*** tableau_numeros) {
+/* Ajouter un contact */
+void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
 }
 
-void removeContact(char*** tableau_noms, char*** tableau_numeros) {
+/* Supprimer un contact */
+void removeContact(char *tableau_noms[], char *tableau_numeros[], int size) {
 }
 
-int searchContacts(char*** tableau_noms, char*** tableau_numeros) {
+/* Rechercher un contact */
+int searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     return 0;
 }
 
-void viewAllContacts(char*** tableau_noms, char*** tableau_numeros) {
+/* Afficher tous les contacts */
+void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
+    printf("Affichage de tous les contacts\n");
+    for(int i = 0; i <= CONTACT_LIMIT; ++i) {
+        // Valeure NULL = fin du tableau
+        if(tableau_noms[i] == NULL || tableau_numeros == NULL)
+            break;
+        printf("%d. %s - %s\n", i, tableau_noms[i], tableau_numeros[i]);
+    }
+    printf("\n");
 }
 
+/* Nettoyage de l'entrée */
 void flush() {
     int c;
     while((c = getchar()) != '\n' && c != EOF);
 }
 
 int main() {
-    char** noms[40][10];
-    int** numeros[40][10];
+    /* Déclaration des variables + données de test*/
+    char* noms[CONTACT_LIMIT][10] = {"John", "Doe", "Julien"};
+    char* numeros[CONTACT_LIMIT][10] = { "0695413596", "07955417596", "+33826134576" };
     int choice = 0;
 
+    /* Affichage du menu */
     printf("=== Gestionnaire de contacts ===\n");
     do {
         printf("Choississez une action:\n");
@@ -51,7 +67,7 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                //viewAllContacts(char ***tableau_noms, char ***tableau_numeros);
+                viewAllContacts(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 2:
                 //searchContacts(char ***tableau_noms, char ***tableau_numeros);
@@ -68,7 +84,7 @@ int main() {
                 printf("Action invalide, veuillez choisir une autre action\n\n");
                 break;
         }
-        flush();
+        flush();    // Nettoyage de l'entrée pour le prochain choix
     } while(choice != 5);
     printf("\nA bientot!\n");
 
