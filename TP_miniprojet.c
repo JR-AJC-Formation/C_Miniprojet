@@ -61,10 +61,43 @@ int search(char *tableau[], char *to_search, int size) {
 /* Fonctions menu */
 /* Ajouter un contact */
 void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
+    char nom[10];
+    char numero[10];
+    printf("Entrez le nom du contact à ajouter > ");
+    scanf("%s", nom);
+    printf("Entrez le numero du contact à ajouter > ");
+    scanf("%s", numero);
+    for(int i = 0; i <= size; ++i) {
+        // Valeure NULL = fin du tableau
+        if(i >= size) {
+            printf("Plus de place dans les contacts!");
+            break;
+        }
+        if(tableau_noms[i] == NULL || tableau_numeros == NULL) {
+            tableau_noms[i] = nom;
+            tableau_numeros[i] = numero;
+            printf("Contact %d. %s - %s ajouté\n", i, tableau_noms[i], tableau_numeros[i]);
+            break;
+        }
+    }
 }
 
 /* Supprimer un contact */
 void removeContact(char *tableau_noms[], char *tableau_numeros[], int size) {
+    int todelete = 0;
+    printf("Entrez le numero du contact à supprimer > ");
+    scanf("%d", &todelete);
+    if(todelete > 0 && todelete < size) {
+        if(tableau_noms[todelete] == NULL || tableau_numeros[todelete] == NULL) {
+            printf("Ce contact n'existe pas\n");
+        } else {
+            tableau_noms[todelete] = NULL;
+            tableau_numeros[todelete] = NULL;
+            printf("Contact %d. supprimé\n", todelete);
+        }
+    } else {
+        printf("Contact invalide, retour au menu\n");
+    }
 }
 
 /* Rechercher un contact */
@@ -74,22 +107,22 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     printf("Chercher un 1- Nom 2- Numéro\n> ");
     scanf("%d", &choice);
     if(choice == 1) {
-        char *nom[10];
+        char nom[10];
         flush();
         printf("Entrez le nom > ");
-        scanf("%s", *nom);
-        int index = search(tableau_noms, *nom, size);
+        scanf("%s", nom);
+        int index = search(tableau_noms, nom, size);
         if(index == -1) {
             printf("Aucun résultat");
         } else {
             printf("%d. %s - %s\n", index + 1, tableau_noms[index], tableau_numeros[index]);
         }
     } else if(choice == 2) {
-        char *numero[13];
+        char numero[10];
         flush();
         printf("Entrez le numero > ");
-        scanf("%s", *numero);
-        int index = search(tableau_noms, *numero, size);
+        scanf("%s", numero);
+        int index = search(tableau_numeros, numero, size);
         if(index == -1) {
             printf("Aucun résultat");
         } else {
@@ -104,7 +137,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
 /* Afficher tous les contacts */
 void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     printf("Affichage de tous les contacts\n");
-    for(int i = 0; i <= CONTACT_LIMIT; ++i) {
+    for(int i = 0; i <= size; ++i) {
         // Valeure NULL = fin du tableau
         if(tableau_noms[i] == NULL || tableau_numeros == NULL)
             break;
@@ -134,10 +167,10 @@ int main() {
                 searchContacts(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 3:
-                //addContact(char ***tableau_noms, char ***tableau_numeros);
+                addContact(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 4:
-                //removeContact(char ***tableau_noms, char ***tableau_numeros);
+                removeContact(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 5:
                 break;  // Do nothing, loop will exit
