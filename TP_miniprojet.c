@@ -22,6 +22,43 @@
     - Supprimer un contact.
 */
 
+/* Fonctions utilitaires */
+/* Nettoyage de l'entrée */
+void flush() {
+    int c;
+    while((c = getchar()) != '\n' && c != EOF);
+}
+
+/* Comparaison de string */
+int compareString(char *string1, char *string2) {
+    int count = 0;
+    do {
+        if(string1[count] != string2[count]) {
+            if(string1[count] == '\0' || string2[count] == '\0') {
+                count = 0;
+            }
+            break;
+        } else {
+            count++;
+        }
+    } while(1);
+    return count;
+}
+
+/* Recherche dans le tableau */
+int search(char *tableau[], char *to_search, int size) {
+    for(int i = 0; i <= CONTACT_LIMIT; ++i) {
+        printf("%s %s", tableau[i], to_search);
+        if(compareString(tableau[i], to_search) != 0) {
+            return i;
+        } else if(tableau[i] == NULL) {
+            return -1;
+        }
+    }
+    return -1;
+}
+
+/* Fonctions menu */
 /* Ajouter un contact */
 void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
 }
@@ -31,8 +68,37 @@ void removeContact(char *tableau_noms[], char *tableau_numeros[], int size) {
 }
 
 /* Rechercher un contact */
-int searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
-    return 0;
+void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
+    int choice;
+    flush();
+    printf("Chercher un 1- Nom 2- Numéro\n> ");
+    scanf("%d", &choice);
+    if(choice == 1) {
+        char *nom[10];
+        flush();
+        printf("Entrez le nom > ");
+        scanf("%s", *nom);
+        int index = search(tableau_noms, *nom, size);
+        if(index == -1) {
+            printf("Aucun résultat");
+        } else {
+            printf("%d. %s - %s\n", index + 1, tableau_noms[index], tableau_numeros[index]);
+        }
+    } else if(choice == 2) {
+        char *numero[13];
+        flush();
+        printf("Entrez le numero > ");
+        scanf("%s", *numero);
+        int index = search(tableau_noms, *numero, size);
+        if(index == -1) {
+            printf("Aucun résultat");
+        } else {
+            printf("%d. %s - %s\n", index + 1, tableau_noms[index], tableau_numeros[index]);
+        }
+    } else {
+        printf("\nChoix invalide, retour au menu");
+    }
+    printf("\n");
 }
 
 /* Afficher tous les contacts */
@@ -47,11 +113,6 @@ void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     printf("\n");
 }
 
-/* Nettoyage de l'entrée */
-void flush() {
-    int c;
-    while((c = getchar()) != '\n' && c != EOF);
-}
 
 int main() {
     /* Déclaration des variables + données de test*/
@@ -70,7 +131,7 @@ int main() {
                 viewAllContacts(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 2:
-                //searchContacts(char ***tableau_noms, char ***tableau_numeros);
+                searchContacts(*noms, *numeros, CONTACT_LIMIT);
                 break;
             case 3:
                 //addContact(char ***tableau_noms, char ***tableau_numeros);
