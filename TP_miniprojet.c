@@ -9,7 +9,7 @@
     nous allons utiliser deux tableaux :
     un tableau pour stocker les noms et un autre pour les numéros de téléphone.
 
-    PAS DE "STRUCT"
+    PAS DE "STRUCT"... Enfin, maintenant on en ajoute parcequ'on a été autorisé à en faire :)
 
     utilisation de fonctions obligatoire , donc utilisation modulaire
 
@@ -21,6 +21,16 @@
     - Afficher tous les contacts.
     - Supprimer un contact.
 */
+/* Déclaration de la structure */
+struct Contact {
+    char nom[15];
+    char numero[15];
+};
+
+struct Contacts {
+    char* noms[CONTACT_LIMIT];
+    char* numeros[CONTACT_LIMIT];
+};
 
 /* Fonctions utilitaires */
 /* Nettoyage de l'entrée */
@@ -64,13 +74,12 @@ int search(char *tableau[], char *to_search, int size) {
 /* Fonctions menu */
 /* Ajouter un contact */
 void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
-    char nom[15];
-    char numero[15];
+    struct Contact contact;
     printf("Entrez le nom du contact à ajouter > ");
-    scanf("%s", nom);
+    scanf("%s", contact.nom);
     flush();
     printf("Entrez le numero du contact à ajouter > ");
-    scanf("%s", numero);
+    scanf("%s", contact.numero);
     for(int i = 0; i <= size; ++i) {
         // Valeure NULL = fin du tableau
         if(i >= size) {
@@ -78,8 +87,8 @@ void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
             break;
         }
         if(tableau_noms[i] == NULL || tableau_numeros == NULL) {
-            *(tableau_noms + i) = nom;
-            *(tableau_numeros + i) = numero;
+            *(tableau_noms + i) = contact.nom;
+            *(tableau_numeros + i) = contact.numero;
             printf("Contact %d. %s - %s ajouté\n", i, tableau_noms[i], tableau_numeros[i]);
             break;
         }
@@ -161,8 +170,10 @@ void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
 
 int main() {
     /* Déclaration des variables + données de test*/
-    char* noms[CONTACT_LIMIT] = {"John", "Doe", "Julien"};
-    char* numeros[CONTACT_LIMIT] = { "0695413596", "07955417596", "+33826134576" };
+    struct Contacts contacts = {
+    {"John", "Doe", "Julien"},
+    { "0695413596", "07955417596", "+33826134576" }
+    };
     int choice = 0;
 
     /* Affichage du menu */
@@ -173,16 +184,16 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                viewAllContacts(noms, numeros, CONTACT_LIMIT);
+                viewAllContacts(contacts.noms, contacts.numeros, CONTACT_LIMIT);
                 break;
             case 2:
-                searchContacts(noms, numeros, CONTACT_LIMIT);
+                searchContacts(contacts.noms, contacts.numeros, CONTACT_LIMIT);
                 break;
             case 3:
-                addContact(noms, numeros, CONTACT_LIMIT);
+                addContact(contacts.noms, contacts.numeros, CONTACT_LIMIT);
                 break;
             case 4:
-                removeContact(noms, numeros, CONTACT_LIMIT);
+                removeContact(contacts.noms, contacts.numeros, CONTACT_LIMIT);
                 break;
             case 5:
                 break;  // Do nothing, loop will exit
