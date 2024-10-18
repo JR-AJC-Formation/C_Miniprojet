@@ -33,10 +33,11 @@ void flush() {
 int compareString(char *string1, char *string2) {
     int count = 0;
     do {
-        if(string1[count] != string2[count]) {
-            if(string1[count] == '\0' || string2[count] == '\0') {
-                count = 0;
-            }
+        if(string1[count] == '\0' || string2[count] == '\0') {
+            break;
+        }
+        if(string1[count] != string2[count] && (string1[count] != '\0' || string2[count] != '\0')) {
+            count = 0;
             break;
         } else {
             count++;
@@ -50,8 +51,7 @@ int compareString(char *string1, char *string2) {
    Si return n, emplacement dans la liste
    On renvoie -1 car l'emplacement pourrais être 0! */
 int search(char *tableau[], char *to_search, int size) {
-    for(int i = 0; i <= CONTACT_LIMIT; ++i) {
-        printf("%s %s", tableau[i], to_search);
+    for(int i = 0; i <= size; ++i) {
         if(compareString(tableau[i], to_search) != 0) {
             return i;
         } else if(tableau[i] == NULL) {
@@ -64,8 +64,8 @@ int search(char *tableau[], char *to_search, int size) {
 /* Fonctions menu */
 /* Ajouter un contact */
 void addContact(char *tableau_noms[], char *tableau_numeros[], int size) {
-    char nom[10];
-    char numero[10];
+    char nom[15];
+    char numero[15];
     printf("Entrez le nom du contact à ajouter > ");
     scanf("%s", nom);
     flush();
@@ -116,7 +116,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     printf("Chercher un 1- Nom 2- Numéro\n> ");
     scanf("%d", &choice);
     if(choice == 1) {
-        char nom[10];
+        char nom[15];
         flush();
         printf("Entrez le nom > ");
         scanf("%s", nom);
@@ -128,7 +128,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
             printf("%d. %s - %s\n", index + 1, tableau_noms[index], tableau_numeros[index]);
         }
     } else if(choice == 2) {
-        char numero[10];
+        char numero[15];
         flush();
         printf("Entrez le numero > ");
         scanf("%s", numero);
