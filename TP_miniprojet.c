@@ -45,7 +45,10 @@ int compareString(char *string1, char *string2) {
     return count;
 }
 
-/* Recherche dans le tableau */
+/* Recherche dans le tableau
+   Si return -1, pas de résultats
+   Si return n, emplacement dans la liste
+   On renvoie -1 car l'emplacement pourrais être 0! */
 int search(char *tableau[], char *to_search, int size) {
     for(int i = 0; i <= CONTACT_LIMIT; ++i) {
         printf("%s %s", tableau[i], to_search);
@@ -88,6 +91,10 @@ void removeContact(char *tableau_noms[], char *tableau_numeros[], int size) {
     int todelete = 0;
     printf("Entrez le numero du contact à supprimer > ");
     scanf("%d", &todelete);
+    /* Suppression du contact, cela laisse un trou dans le tableau!
+       Si l'on voulais bien faire, il faudrait retrier la liste
+       Ceci pourrais être une améliorarion pour plus tard,
+       car cela pose un problème pour l'affichage des contacts! */
     if(todelete > 0 && todelete < size) {
         if(tableau_noms[todelete] == NULL || tableau_numeros[todelete] == NULL) {
             printf("Ce contact n'existe pas\n");
@@ -105,6 +112,7 @@ void removeContact(char *tableau_noms[], char *tableau_numeros[], int size) {
 void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     int choice;
     flush();
+    /* Affichage du choix */
     printf("Chercher un 1- Nom 2- Numéro\n> ");
     scanf("%d", &choice);
     if(choice == 1) {
@@ -112,6 +120,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
         flush();
         printf("Entrez le nom > ");
         scanf("%s", nom);
+        /* On appelle la fonction search, si -1 pas de résultat! Sinon emplacement dans la liste */
         int index = search(tableau_noms, nom, size);
         if(index == -1) {
             printf("Aucun résultat");
@@ -123,6 +132,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
         flush();
         printf("Entrez le numero > ");
         scanf("%s", numero);
+        /* On appelle la fonction search, si -1 pas de résultat! Sinon emplacement dans la liste */
         int index = search(tableau_numeros, numero, size);
         if(index == -1) {
             printf("Aucun résultat");
@@ -138,6 +148,7 @@ void searchContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
 /* Afficher tous les contacts */
 void viewAllContacts(char *tableau_noms[], char *tableau_numeros[], int size) {
     printf("Affichage de tous les contacts\n");
+    /* Itération sur tous les contacts jusqu'à en trouver un vide */
     for(int i = 0; i <= size; ++i) {
         // Valeure NULL = fin du tableau
         if(tableau_noms[i] == NULL || tableau_numeros == NULL)
